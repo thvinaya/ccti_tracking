@@ -36,8 +36,8 @@ jobs:
         run: |
             function_version=$(aws lambda get-alias --function-name  ${{ env.FUNCTION_NAME }} --name ${{ env.DEV_ALIAS }} --query 'FunctionVersion' --output text)
             echo $function_version
-            echo $github.ref
-            if ["${{github.ref}}" == 'main']; then
+            echo $github.ref_name
+            if ["${{github.ref_name}}" == 'main']; then
               aws lambda update-alias \
               --function-name ${{ env.FUNCTION_NAME }} \
               --name ${{ env.PROD_ALIAS }} \
