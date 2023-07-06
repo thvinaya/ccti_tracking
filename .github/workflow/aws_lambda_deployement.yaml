@@ -2,11 +2,11 @@ name: Deploy ccti_tracking Lambda
 on:
   push:
     branches:
-        [master]
+        [main]
   
   workflow_dispatch:
    branches:
-        [master,dev]
+        [main,dev]
 
 env:
   FUNCTION_NAME: ccti_tracking
@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@master
+        uses: actions/checkout@main
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
