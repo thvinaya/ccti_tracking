@@ -38,6 +38,7 @@ jobs:
             echo $function_version
             echo ${{github.ref_name}}
             if ["${{github.ref_name}}" == "main"]; then
+              echo $function_version
               aws lambda update-alias \
               --function-name ${{ env.FUNCTION_NAME }} \
               --function-version  $function_version
