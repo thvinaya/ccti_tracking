@@ -34,12 +34,13 @@ jobs:
           
       - name: Deploy ccti_tracking Lambda Function
         run: |
-            FUNCTION_VERSION = $(aws lambda get-alias --function-name  ${{ env.FUNCTION_NAME }} --name ${{ env.DEV_ALIAS }} --query 'FunctionVersion' --output text)
+            function_version = $(aws lambda get-alias --function-name  ${{ env.FUNCTION_NAME }} --name ${{ env.DEV_ALIAS }} --query 'FunctionVersion' --output text)
+            echo $function_version
             if ["${{github.ref}}" == 'main']; then
               aws lambda create-alias \
               --function-name ${{ env.FUNCTION_NAME }} \
               --name ${{ env.PROD_ALIAS }} \
-              --function-version  $FUNCTION_VERSION\
+              --function-version  $function_version\
               --description " " \
               --publish
             elif
@@ -54,10 +55,7 @@ jobs:
             aws lambda update-function-code \
               --function-name ${{ env.FUNCTION_NAME }} \
               --zip-file fileb://app/lambda.zip
-
-            
-
-          
+     
       - name: Wait for ccti_tracking Lambda function update to complete
         run: |
           while true; do
