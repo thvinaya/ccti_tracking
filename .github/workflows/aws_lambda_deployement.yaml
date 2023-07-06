@@ -35,6 +35,7 @@ jobs:
       - name: Deploy ccti_tracking Lambda Function
         run: |
             function_version=$(aws lambda get-alias --function-name  ${{ env.FUNCTION_NAME }} --name ${{ env.DEV_ALIAS }} --query 'FunctionVersion' --output text)
+            dev_version=$(aws lambda get-function --function-name ${{ env.FUNCTION_NAME }} --query 'Configuration.Version' --output text)
             echo $function_version
             echo ${{github.ref_name}}
             if [ "${{github.ref_name}}" == "main" ]; then
@@ -43,15 +44,13 @@ jobs:
               --function-name ${{ env.FUNCTION_NAME }} \
               --function-version  $function_version \
               --name ${{ env.PROD_ALIAS }} 
-             
-              
+                 
             elif [ "${{github.ref}}" == "dev" ]; then
               aws lambda update-alias \
               --function-name ${{ env.FUNCTION_NAME }} \
-              --function-version $LATEST \
+              --function-version $dev_version \
               --name ${{ env.DEV_ALIAS }}
-              
-             
+                
             fi
 
             aws lambda update-function-code \
