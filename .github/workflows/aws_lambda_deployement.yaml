@@ -36,20 +36,19 @@ jobs:
         run: |
             function_version=$(aws lambda get-alias --function-name  ${{ env.FUNCTION_NAME }} --name ${{ env.DEV_ALIAS }} --query 'FunctionVersion' --output text)
             echo $function_version
+            echo $github.ref
             if ["${{github.ref}}" == 'main']; then
-              aws lambda create-alias \
+              aws lambda update-alias \
               --function-name ${{ env.FUNCTION_NAME }} \
               --name ${{ env.PROD_ALIAS }} \
-              --function-version  $function_version\
-              --description " " \
-              --publish
+              --function-version  $function_version
+              
             elif ["${{github.ref}}" == 'dev']; then
-              aws lambda create-alias \
+              aws lambda update-alias \
               --function-name ${{ env.FUNCTION_NAME }} \
               --name ${{ env.DEV_ALIAS }}\
-              --function-version $LATEST \
-              --description " " \
-              --publish
+              --function-version $LATEST 
+             
             fi
 
             aws lambda update-function-code \
