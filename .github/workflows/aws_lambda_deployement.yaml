@@ -43,7 +43,7 @@ jobs:
               --function-version  $function_version\
               --description " " \
               --publish
-            elif
+            elif ["${{github.ref}}" == 'dev']; then
               aws lambda create-alias \
               --function-name ${{ env.FUNCTION_NAME }} \
               --name ${{ env.DEV_ALIAS }}\
