@@ -35,7 +35,7 @@ jobs:
       - name: Deploy ccti_tracking Lambda Function
         run: |
             FUNCTION_VERSION = $(aws lambda get-alias --function-name  ${{ env.FUNCTION_NAME }} --name ${{ env.DEV_ALIAS }} --query 'FunctionVersion' --output text)
-            if ["${{github.ref}}" == 'master']; then
+            if ["${{github.ref}}" == 'main']; then
               aws lambda create-alias \
               --function-name ${{ env.FUNCTION_NAME }} \
               --name ${{ env.PROD_ALIAS }} \
