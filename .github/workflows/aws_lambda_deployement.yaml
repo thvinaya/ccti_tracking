@@ -46,7 +46,7 @@ jobs:
               --function-version  $function_version \
               --name ${{ env.PROD_ALIAS }} 
                  
-            elif [ "${{github.ref}}" == "dev" ]; then
+            elif [ "${{github.ref_name}}" == "dev" ]; then
               aws lambda update-alias \
               --function-name ${{ env.FUNCTION_NAME }} \
               --function-version $dev_version \
